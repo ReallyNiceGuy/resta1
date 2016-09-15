@@ -10,20 +10,20 @@ class CellType(Enum):
 
 class Cell(object):
   def __init__(self,celType):
-    if celType == "X":
+    if celType == "o":
       self.type = CellType.full
-    elif celType == "O":
+    elif celType == ".":
       self.type = CellType.empty
     else:
       self.type = CellType.closed
 
   def __str__(self):
     if self.type == CellType.full:
-      return "X"
+      return "o"
     elif self.type == CellType.empty:
-      return "O"
-    else:
       return "."
+    else:
+      return " "
 
   def isEmpty(self):
     return self.type == CellType.empty
@@ -46,23 +46,22 @@ class Cell(object):
 
 class Board(object):
   DEFAULTGAME = """\
-..XXX..
-..XXX..
-XXXXXXX
-XXXOXXX
-XXXXXXX
-..XXX..
-..XXX..
-"""
+  ooo
+  ooo
+ooooooo
+ooo.ooo
+ooooooo
+  ooo
+  ooo"""
   def __init__(self,gameState=DEFAULTGAME):
     self.loadGame(gameState)
 
   def loadGame(self,gameState):
-    lines = gameState.split()
+    lines = gameState.split("\n")
     numCols = len(max(lines))
     self.lines = []
     for line in lines:
-      line = line + ("."*(numCols-len(line)))
+      line = line + (" "*(numCols-len(line)))
       linecell = []
       for cell in line:
         linecell.append(Cell(cell))
