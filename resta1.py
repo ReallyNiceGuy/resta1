@@ -92,37 +92,42 @@ XXXXXXX
      count = count + 1
     return "\n".join(result)
 
+  def isInsideBoard(self,col,line):
+    return col>=0 and col < self.numCols and \
+           line>=0 and line < self.numLines
+
+  def __getCellNoCheck(self,col,line):
+    return self.lines[line][col]
+
   def getPossibleMoves(self,col,line):
     moves = []
-    if col<0 or line <0:
-      return False
-    if line >= self.numLines:
-      return False
-    if col >= self.numCols:
-      return False
+    if not self.isInsideBoard(col,line):
+      return []
     for i in [(-1,0),(1,0),(0,-1),(0,1)]:
       col_offset, line_offset = i
       target_line = line + line_offset*2
       target_col = col + col_offset*2
       over_line = line + line_offset
       over_col = col + col_offset
-      if target_line<0 or target_line>=self.numLines:
+      if not self.isInsideBoard(target_col,target_line):
         continue
-      if target_col<0 or target_col>=self.numCols:
-        continue
-      if self.lines[target_line][target_col].isEmpty() and \
-         self.lines[over_line][over_col].isFull() and \
-         self.lines[line][col].isFull():
+      if self.__getCellNoCheck(target_col,target_line).isEmpty() and \
+         self.__getCellNoCheck(over_col,over_line).isFull() and \
+         self.__getCellNoCheck(col,line).isFull():
          moves.append( ( (col,line),(target_col,target_line),(over_col,over_line)) )
     return moves 
 
   def move(self, origin, target):
-    over = (origin[0]+(target[0]-origin[0])//2,origin[1]+(target[1]-origin[1])//2)
+    origin_col,origin_line = origin
+    target_col,target_line = target
+    over_col = origin_col+(target_col-origin_col)//2
+    over_line = origin_line+(target_line-origin_line)//2
+    over = (over_col,over_line)
     fullMove = (origin, target, over)
     if fullMove in self.getPossibleMoves(*origin):
-      self.lines[origin[1]][origin[0]].setEmpty() 
-      self.lines[over[1]][over[0]].setEmpty()
-      self.lines[target[1]][target[0]].setFull()
+      self.__getCellNoCheck(origin_col,origin_line).setEmpty()
+      self.__getCellNoCheck(over_col,over_line).setEmpty()
+      self.__getCellNoCheck(target_col,target_line).setFull()
       return True
     return False
 
