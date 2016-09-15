@@ -3,15 +3,6 @@
 
 from enum import Enum
 
-DEFAULTGAME = """\
-..XXX..
-..XXX..
-XXXXXXX
-XXXOXXX
-XXXXXXX
-..XXX..
-..XXX..
-"""
 class CellType(Enum):
   closed = 0
   empty = 1
@@ -54,6 +45,15 @@ class Cell(object):
 
 
 class Board(object):
+  DEFAULTGAME = """\
+..XXX..
+..XXX..
+XXXXXXX
+XXXOXXX
+XXXXXXX
+..XXX..
+..XXX..
+"""
   def __init__(self,gameState=DEFAULTGAME):
     self.loadGame(gameState)
 
@@ -67,6 +67,8 @@ class Board(object):
       for cell in line:
         linecell.append(Cell(cell))
       self.lines.append(linecell)
+    self.numCols = numCols
+    self.numLines = len(self.lines)
 
   def linesAsString(self):
     lines = []
@@ -83,8 +85,7 @@ class Board(object):
   def __str__(self):
     result = []
     lines = self.linesAsString()
-    numCols = len(max(lines))
-    result.append("  "+"".join([ str(x) for x in range(numCols)]))
+    result.append("  "+"".join([ str(x) for x in range(self.numCols)]))
     count = 0
     for line in lines:
      result.append(("%i " % count)+line)
@@ -95,11 +96,9 @@ class Board(object):
     moves = []
     if col<0 or line <0:
       return False
-    lines = len(self.lines)
-    if line >= lines:
+    if line >= self.numLines:
       return False
-    columns = len(self.lines[line])
-    if col >= columns:
+    if col >= self.numCols:
       return False
     for i in [(-1,0),(1,0),(0,-1),(0,1)]:
       col_offset, line_offset = i
@@ -107,9 +106,9 @@ class Board(object):
       target_col = col + col_offset*2
       over_line = line + line_offset
       over_col = col + col_offset
-      if target_line<0 or target_line>=lines:
+      if target_line<0 or target_line>=self.numLines:
         continue
-      if target_col<0 or target_col>=columns:
+      if target_col<0 or target_col>=self.numCols:
         continue
       if self.lines[target_line][target_col].isEmpty() and \
          self.lines[over_line][over_col].isFull() and \
@@ -128,8 +127,8 @@ class Board(object):
     return False
 
   def hasValidMoves(self):
-    for line in range(len(self.lines)):
-      for col in range(len(self.lines[line])):
+    for line in range(self.numLines):
+      for col in range(self.numCols):
         if self.lines[line][col].isFull():
           if len(self.getPossibleMoves(col,line))>0:
             return True
@@ -145,13 +144,17 @@ class Board(object):
     return 1 == count
 
 if __name__ == "__main__":
+  import time
   a = Board()
   print(str(a))
   while a.hasValidMoves():
     i = input("de_col de_linha para_col para_linha:")
-    move = list(map(int,i.split()))
-    if len(move) != 4 or not a.move( (move[0],move[1]),(move[2],move[3]) ):
-        print("Invalid move")
+    try:
+      move = list(map(int,i.split()))
+      if len(move) != 4 or not a.move( (move[0],move[1]),(move[2],move[3]) ):
+        raise "Invalid move"
+    except:
+      print("Invalid move")
     print(str(a))
 
   if a.resta1():
