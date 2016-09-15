@@ -66,9 +66,9 @@ cls()
 l,c=(1,1)
 b = Board()
 selected=False
+home()
+print(b.saveGame())
 while b.hasValidMoves():
-  home()
-  print(b.saveGame())
   if selected:
     reverse()
     moveTo(origin[1]+1,origin[0]+1)
@@ -104,10 +104,12 @@ while b.hasValidMoves():
         undo.append(sg) 
   elif not selected and ch == ord("u") and len(undo)>0:
     b.loadGame(undo.pop())
+  home()
+  print(b.saveGame())
 
 moveTo(b.numLines+1,1)
 if b.resta1():
   print("Parabéns!")
-else:
+elif not b.hasValidMoves():
   print("Tente novamente")
 
