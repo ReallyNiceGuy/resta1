@@ -99,6 +99,11 @@ XXXXXXX
   def __getCellNoCheck(self,col,line):
     return self.lines[line][col]
 
+  def getCell(self,col,line):
+    if not self.isInsideBoard(col,line):
+      return None
+    return self.lines[line][col]
+
   def getPossibleMoves(self,col,line):
     moves = []
     if not self.isInsideBoard(col,line):
