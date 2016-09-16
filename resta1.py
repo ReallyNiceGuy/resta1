@@ -59,7 +59,6 @@ class Board(object):
     self.lines = []
     for line in lines:
       line = line + (CellType.closed*(numCols-len(line)))
-      linecell = []
       for cell in line:
         self.lines.append(Cell(cell))
     self.numCols = numCols
