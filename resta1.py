@@ -3,27 +3,22 @@
 
 from enum import Enum
 
-class CellType(Enum):
-  closed = 0
-  empty = 1
-  full = 2
+class CellType(str,Enum):
+  closed = " "
+  full = "o"
+  empty = "."
+  def values():
+    return [e.value for e in CellType]
 
 class Cell(object):
   def __init__(self,celType):
-    if celType == "o":
-      self.type = CellType.full
-    elif celType == ".":
-      self.type = CellType.empty
+    if celType in CellType.values():
+      self.type = celType
     else:
       self.type = CellType.closed
 
   def __str__(self):
-    if self.type == CellType.full:
-      return "o"
-    elif self.type == CellType.empty:
-      return "."
-    else:
-      return " "
+    return self.type
 
   def isEmpty(self):
     return self.type == CellType.empty
@@ -46,13 +41,15 @@ class Cell(object):
 
 class Board(object):
   DEFAULTGAME = """\
-  ooo
-  ooo
-ooooooo
-ooo.ooo
-ooooooo
-  ooo
-  ooo"""
+{x}{x}{o}{o}{o}{x}{x}
+{x}{x}{o}{o}{o}{x}{x}
+{o}{o}{o}{o}{o}{o}{o}
+{o}{o}{o}{_}{o}{o}{o}
+{o}{o}{o}{o}{o}{o}{o}
+{x}{x}{o}{o}{o}{x}{x}
+{x}{x}{o}{o}{o}{x}{x}\
+""".format(x=CellType.closed,o=CellType.full,_=CellType.empty)
+
   def __init__(self,gameState=DEFAULTGAME):
     self.loadGame(gameState)
 
@@ -61,7 +58,7 @@ ooooooo
     numCols = len(max(lines))
     self.lines = []
     for line in lines:
-      line = line + (" "*(numCols-len(line)))
+      line = line + (CellType.closed*(numCols-len(line)))
       linecell = []
       for cell in line:
         linecell.append(Cell(cell))
