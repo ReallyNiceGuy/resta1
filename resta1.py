@@ -96,7 +96,7 @@ class Board(object):
 
   def getCell(self,col,line):
     if not self.isInsideBoard(col,line):
-      return None
+      return Cell(CellType.closed)
     return self.__getCellNoCheck(col,line)
 
   def getPossibleMoves(self,col,line):
