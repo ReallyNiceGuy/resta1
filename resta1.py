@@ -56,11 +56,11 @@ class Board(object):
   def loadGame(self,gameState):
     lines = gameState.split("\n")
     numCols = len(max(lines))
-    self.lines = []
+    self.cells = []
     for line in lines:
       line = line + (CellType.closed*(numCols-len(line)))
-      for cell in line:
-        self.lines.append(Cell(cell))
+      for entry in line:
+        self.cells.append(Cell(entry))
     self.numCols = numCols
     self.numLines = len(lines)
 
@@ -91,7 +91,7 @@ class Board(object):
            line>=0 and line < self.numLines
 
   def __getCellNoCheck(self,col,line):
-    return self.lines[line*self.numLines+col]
+    return self.cells[line*self.numLines+col]
 
   def getCell(self,col,line):
     if not self.isInsideBoard(col,line):
@@ -138,13 +138,8 @@ class Board(object):
             return True
     return False
 
-
   def resta1(self):
-    count = 0
-    for cell in self.lines:
-      if cell.isFull():
-        count = count+1
-    return 1 == count
+    return 1 == len(list(filter(Cell.isFull,self.cells)))
 
 if __name__ == "__main__":
   import time
