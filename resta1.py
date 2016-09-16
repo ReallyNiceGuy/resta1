@@ -109,10 +109,9 @@ class Board(object):
       target_col = col + col_offset*2
       over_line = line + line_offset
       over_col = col + col_offset
-      if not self.isInsideBoard(target_col,target_line):
+      if not self.getCell(target_col,target_line).isEmpty():
         continue
-      if self.__getCellNoCheck(target_col,target_line).isEmpty() and \
-         self.__getCellNoCheck(over_col,over_line).isFull():
+      if self.__getCellNoCheck(over_col,over_line).isFull():
          moves.append( ( (col,line),(target_col,target_line),(over_col,over_line)) )
     return moves 
 
