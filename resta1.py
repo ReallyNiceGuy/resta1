@@ -12,10 +12,10 @@ class CellType(str,Enum):
 
 class Cell(object):
   def __init__(self,celType):
-    if celType in CellType.values():
-      self.type = celType
-    else:
-      self.type = CellType.closed
+    self.type = CellType.closed
+    for item in CellType:
+      if celType == item.value:
+        self.type = item
 
   def __str__(self):
     return self.type

@@ -72,7 +72,7 @@ while b.hasValidMoves():
   if selected:
     reverse()
     moveTo(origin[1]+1,origin[0]+1)
-    print(str(b.getCell(origin[0],origin[1])),end="")
+    print(b.getCell(origin[0],origin[1]),end="")
     normal()
   moveTo(l,c)
   ch = getKey() 
