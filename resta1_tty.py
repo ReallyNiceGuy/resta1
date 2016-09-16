@@ -94,7 +94,7 @@ def main():
       c=min(b.numCols-1,c+1)
     elif ch == ord(" ") or ch == 13:
       if not selected:
-        if len(b.getPossibleMoves(c,l))>0:
+        if b.canMove(c,l):
           origin=(c,l)
           selected = True
       else:

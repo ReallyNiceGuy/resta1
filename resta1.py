@@ -113,6 +113,9 @@ class Board(object):
          moves.append( ( (col,line),(target_col,target_line),(over_col,over_line)) )
     return moves 
 
+  def canMove(self,col,line):
+    return len(self.getPossibleMoves(col,line))>0
+
   def move(self, origin, target):
     origin_col,origin_line = origin
     target_col,target_line = target
@@ -130,7 +133,7 @@ class Board(object):
   def hasValidMoves(self):
     for line in range(self.numLines):
       for col in range(self.numCols):
-        if len(self.getPossibleMoves(col,line))>0:
+        if self.canMove(col,line):
             return True
     return False
 
