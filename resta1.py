@@ -7,8 +7,6 @@ class CellType(str,Enum):
   closed = " "
   full = "o"
   empty = "."
-  def values():
-    return [e.value for e in CellType]
 
 class Cell(object):
   def __init__(self,celType=CellType.closed):
