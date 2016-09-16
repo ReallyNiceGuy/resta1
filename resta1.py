@@ -11,7 +11,7 @@ class CellType(str,Enum):
     return [e.value for e in CellType]
 
 class Cell(object):
-  def __init__(self,celType):
+  def __init__(self,celType=CellType.closed):
     self.type = CellType.closed
     for item in CellType:
       if celType == item.value:
@@ -95,7 +95,7 @@ class Board(object):
 
   def getCell(self,col,line):
     if not self.isInsideBoard(col,line):
-      return Cell(CellType.closed)
+      return Cell()
     return self.__getCellNoCheck(col,line)
 
   def getPossibleMoves(self,col,line):
