@@ -83,15 +83,15 @@ while b.hasValidMoves():
     ansi(ESC,"1K")
     if ch != "n":
       break
-  elif ch == K_UP:
+  elif ch == K_UP or ch == ord("i"):
     l=max(1,l-1)
-  elif ch == K_DOWN:
+  elif ch == K_DOWN or ch == ord("k"):
     l=min(b.numLines,l+1)
-  elif ch == K_LEFT:
+  elif ch == K_LEFT or ch == ord("j"):
     c=max(1,c-1)
-  elif ch == K_RIGHT:
+  elif ch == K_RIGHT or ch == ord("l"):
     c=min(b.numCols,c+1)
-  elif ch == ord(" "):
+  elif ch == ord(" ") or ch == 13:
     if not selected:
       if len(b.getPossibleMoves(c-1,l-1))>0:
         origin=(c-1,l-1)
