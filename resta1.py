@@ -122,7 +122,7 @@ class Board(object):
     over_line = origin_line+(target_line-origin_line)//2
     over = (over_col,over_line)
     fullMove = (origin, target, over)
-    if fullMove in self.getPossibleMoves(*origin):
+    if fullMove in self.getPossibleMoves(origin_col,origin_line):
       self.__getCellNoCheck(origin_col,origin_line).setEmpty()
       self.__getCellNoCheck(over_col,over_line).setEmpty()
       self.__getCellNoCheck(target_col,target_line).setFull()
@@ -132,8 +132,7 @@ class Board(object):
   def hasValidMoves(self):
     for line in range(self.numLines):
       for col in range(self.numCols):
-        if self.__getCellNoCheck(col,line).isFull():
-          if len(self.getPossibleMoves(col,line))>0:
+        if len(self.getPossibleMoves(col,line))>0:
             return True
     return False
 
