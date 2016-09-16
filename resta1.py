@@ -61,17 +61,16 @@ class Board(object):
       line = line + (CellType.closed*(numCols-len(line)))
       linecell = []
       for cell in line:
-        linecell.append(Cell(cell))
-      self.lines.append(linecell)
+        self.lines.append(Cell(cell))
     self.numCols = numCols
-    self.numLines = len(self.lines)
+    self.numLines = len(lines)
 
   def linesAsString(self):
     lines = []
-    for line in self.lines:
+    for line in range(self.numLines):
       cols =  []
-      for cell in line:
-        cols.append(str(cell))
+      for col in range(self.numCols):
+        cols.append(str(self.__getCellNoCheck(col,line)))
       lines.append("".join(cols))
     return lines
  
@@ -93,12 +92,12 @@ class Board(object):
            line>=0 and line < self.numLines
 
   def __getCellNoCheck(self,col,line):
-    return self.lines[line][col]
+    return self.lines[line*self.numLines+col]
 
   def getCell(self,col,line):
     if not self.isInsideBoard(col,line):
       return None
-    return self.lines[line][col]
+    return self.__getCellNoCheck(col,line)
 
   def getPossibleMoves(self,col,line):
     moves = []
@@ -135,7 +134,7 @@ class Board(object):
   def hasValidMoves(self):
     for line in range(self.numLines):
       for col in range(self.numCols):
-        if self.lines[line][col].isFull():
+        if self.__getCellNoCheck(col,line).isFull():
           if len(self.getPossibleMoves(col,line))>0:
             return True
     return False
@@ -143,10 +142,9 @@ class Board(object):
 
   def resta1(self):
     count = 0
-    for line in self.lines:
-      for cell in line:
-        if cell.isFull():
-           count = count+1
+    for cell in self.lines:
+      if cell.isFull():
+        count = count+1
     return 1 == count
 
 if __name__ == "__main__":
