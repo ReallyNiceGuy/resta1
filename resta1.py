@@ -96,7 +96,7 @@ class Board(object):
       return Cell()
     return self.__getCellNoCheck(col,line)
 
-  def getPossibleMoves(self,col,line):
+  def getPossibleMoves(self,col,line,find_first_only=False):
     if not self.getCell(col,line).isFull():
       return []
 
@@ -111,10 +111,12 @@ class Board(object):
       over_col = col + col_offset
       if self.__getCellNoCheck(over_col,over_line).isFull():
          moves.append( ( (col,line),(target_col,target_line),(over_col,over_line)) )
+         if find_first_only:
+           break
     return moves 
 
   def canMove(self,col,line):
-    return len(self.getPossibleMoves(col,line))>0
+    return len(self.getPossibleMoves(col,line,find_first_only=True))>0
 
   def move(self, origin, target):
     origin_col,origin_line = origin
