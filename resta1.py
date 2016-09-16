@@ -105,10 +105,10 @@ class Board(object):
       col_offset, line_offset = i
       target_line = line + line_offset*2
       target_col = col + col_offset*2
-      over_line = line + line_offset
-      over_col = col + col_offset
       if not self.getCell(target_col,target_line).isEmpty():
         continue
+      over_line = line + line_offset
+      over_col = col + col_offset
       if self.__getCellNoCheck(over_col,over_line).isFull():
          moves.append( ( (col,line),(target_col,target_line),(over_col,over_line)) )
     return moves 
