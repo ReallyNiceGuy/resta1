@@ -99,9 +99,10 @@ class Board(object):
     return self.__getCellNoCheck(col,line)
 
   def getPossibleMoves(self,col,line):
-    moves = []
-    if not self.isInsideBoard(col,line):
+    if not self.getCell(col,line).isFull():
       return []
+
+    moves = []
     for i in [(-1,0),(1,0),(0,-1),(0,1)]:
       col_offset, line_offset = i
       target_line = line + line_offset*2
@@ -111,8 +112,7 @@ class Board(object):
       if not self.isInsideBoard(target_col,target_line):
         continue
       if self.__getCellNoCheck(target_col,target_line).isEmpty() and \
-         self.__getCellNoCheck(over_col,over_line).isFull() and \
-         self.__getCellNoCheck(col,line).isFull():
+         self.__getCellNoCheck(over_col,over_line).isFull():
          moves.append( ( (col,line),(target_col,target_line),(over_col,over_line)) )
     return moves 
 
