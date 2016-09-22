@@ -11,6 +11,7 @@ int main(int argc, char **argv)
   std::vector<std::string> undo;
   setlocale(LC_CTYPE, "");
   initscr();
+  mousemask(ALL_MOUSE_EVENTS, NULL);
   start_color();
   init_pair(1, COLOR_WHITE, COLOR_BLACK);
   init_pair(2, COLOR_RED, COLOR_WHITE);
@@ -23,6 +24,7 @@ int main(int argc, char **argv)
   int row=0;
   int sel_col=0;
   int sel_row=0;
+  MEVENT event;
   while (B.hasValidMoves())
   {
     mvprintw(0,0,B.printable().c_str());
@@ -47,6 +49,17 @@ int main(int argc, char **argv)
     }
     switch (ch)
     {
+      case KEY_MOUSE:
+        if(getmouse(&event) == OK)
+        {
+          if (B.isCellInsideBoard(event.y,event.x))
+          {
+            row=event.y;
+            col=event.x;
+            ungetch(' ');
+          }
+        }
+        break;
       case KEY_UP:
         row = std::max(0,row-1);
         break;

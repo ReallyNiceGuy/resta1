@@ -72,7 +72,10 @@ class Board
     }
     int lines() const { return m_lines; }
     int columns() const { return m_columns; }
-    bool isPlayable(int col, int line) const;
+    bool isCellInsideBoard(int col, int line) const
+    {
+      return (col >= 0 && line >= 0 && col < m_columns && line < m_lines);
+    }    bool isPlayable(int col, int line) const;
     bool hasValidMoves() const;
     bool resta1() const;
     bool load(std::string b);
@@ -121,10 +124,6 @@ class Board
     Cell &getCellNoCheck(int col, int line)
     {
       return m_cells[line*m_lines+col];
-    }
-    bool isCellInsideBoard(int col, int line) const
-    {
-      return (col >= 0 && line >= 0 && col < m_columns && line < m_lines);
     }
     std::vector<Cell> m_cells;
     int m_lines;
