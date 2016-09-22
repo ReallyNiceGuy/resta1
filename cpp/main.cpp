@@ -91,6 +91,7 @@ int main(int argc, char **argv)
     }
     move(row,col);
   }
+  mvprintw(0,0,B.printable().c_str());
   move(B.lines(),0);
   clrtoeol();
   if (!B.hasValidMoves())
@@ -98,6 +99,10 @@ int main(int argc, char **argv)
     if (B.resta1())
     {
       printw("Congratulations!\n");
+    }
+    else
+    {
+      printw("Try again\n");
     }
   }
   printw("Press any key to quit...");
