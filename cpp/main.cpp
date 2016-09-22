@@ -1,5 +1,6 @@
 #include "resta1.h"
 #include <iostream>
+#include <fstream>
 #include <cstdio>
 #include <string>
 #include <algorithm>
@@ -8,6 +9,11 @@
 int main(int argc, char **argv)
 {
   Board B;
+  if (argc > 1)
+  {
+    std::ifstream in{argv[1]};
+    if (!B.load(in)) B = Board();
+  }
   std::vector<std::string> undo;
   setlocale(LC_CTYPE, "");
   initscr();
