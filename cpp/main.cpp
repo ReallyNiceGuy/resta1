@@ -107,22 +107,23 @@ int main(int argc, char **argv)
     }
     move(row,col);
   }
-  mvprintw(0,0,B.printable().c_str());
-  move(B.lines(),0);
-  clrtoeol();
+  endwin();
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+  //Whatever, windows is complicated
+  system("cls"); 
+#else
+  std::cout << "\e[1;1H\e[2J";
+#endif
+  std::cout << B.printable() << std::endl;
   if (!B.hasValidMoves())
   {
     if (B.resta1())
     {
-      printw("Congratulations!\n");
+      std::cout << "Congratulations!" << std::endl;
     }
     else
     {
-      printw("Try again\n");
+      std::cout << "Try again" << std::endl;
     }
   }
-  printw("Press any key to quit...");
-  refresh();
-  getch();
-  endwin();
 }
