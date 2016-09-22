@@ -38,6 +38,7 @@ int main(int argc, char **argv)
     if (ch == 'q')
     {
       mvprintw(B.lines(),0,"Are you sure? [y/N]");
+      refresh();
       if (getch() == 'y')
       {
         break;
