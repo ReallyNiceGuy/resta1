@@ -33,6 +33,7 @@ int main(int argc, char **argv)
       mvchgat(sel_row,sel_col,1,A_NORMAL,2,NULL);
     }
     move(row,col);
+    refresh();
     int ch = getch();
     if (ch == 'q')
     {
@@ -120,6 +121,7 @@ int main(int argc, char **argv)
     }
   }
   printw("Press any key to quit...");
+  refresh();
   getch();
   endwin();
 }
