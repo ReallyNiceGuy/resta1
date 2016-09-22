@@ -5,8 +5,8 @@ from enum import Enum
 
 class CellType(str,Enum):
   closed = " "
-  full = "o"
-  empty = "."
+  full = u"\u25CF"
+  empty = u"\u25CB"
 
 class Cell(object):
   def __init__(self,celType=CellType.closed):
