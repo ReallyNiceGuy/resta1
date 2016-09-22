@@ -3,12 +3,13 @@
 #include <cstdio>
 #include <string>
 #include <algorithm>
-#include <ncurses.h>
+#include <ncursesw/curses.h>
 
 int main(int argc, char **argv)
 {
   Board B;
   std::vector<std::string> undo;
+  setlocale(LC_CTYPE, "");
   initscr();
   start_color();
   init_pair(1, COLOR_WHITE, COLOR_BLACK);
@@ -59,7 +60,7 @@ int main(int argc, char **argv)
         col = std::min(col+1,B.columns()-1);
         break;
       case 'u':
-        if (undo.size()>0)
+        if (!selected && undo.size()>0)
         {
           B.load(undo.back());
           undo.pop_back();

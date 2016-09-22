@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 
-const char Cell::m_printable[3]{' ','.','o'};
+const std::string Cell::m_printable[3]{" ","\xE2\x97\x8B","\xE2\x97\x8F"};
 const std::string Board::DEFAULTBOARD{
 "7 7\n"
 "0022200"

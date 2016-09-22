@@ -18,7 +18,7 @@ class Cell
       return *this;
     }
     operator char() const { return m_type; }
-    char printable() const { return m_printable[m_type-'0']; }
+    const std::string& printable() const { return m_printable[m_type-'0']; }
     bool isEmpty()  const { return m_type == EMPTYCHAR; }
     bool isFull()   const { return m_type == FULLCHAR; }
     bool isClosed() const { return m_type == CLOSEDCHAR; }
@@ -39,7 +39,7 @@ class Cell
     static const char CLOSEDCHAR='0';
     static const char EMPTYCHAR='1';
     static const char FULLCHAR='2';
-    static const char m_printable[3];
+    static const std::string m_printable[3];
   protected:
     char m_type;
 
