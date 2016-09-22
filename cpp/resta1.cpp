@@ -44,11 +44,25 @@ bool Board::hasValidMoves() const
   {
     for(int col=0; col<m_columns; ++col)
     {
-      if (isPlayableNoCheck(line,col)) return true;
+      if (isPlayableNoCheck(col,line)) return true;
     }
   }
   return false;
 }
+
+std::tuple<bool,int,int> Board::isMoveValid(int from_col, int from_line, int to_col, int to_line) const
+{
+  int over_col = from_col + (to_col - from_col)/2;
+  int over_line = from_line + (to_line - from_line)/2;
+  if (getCellNoCheck(from_col,from_line).isFull() &&
+      getCellNoCheck(to_col,to_line).isEmpty() &&
+      getCellNoCheck(over_col,over_line).isFull())
+  {
+    return std::make_tuple(true,over_col,over_line);
+  }
+  return std::make_tuple(false,over_col,over_line);
+}
+
 
 bool Board::resta1() const
 {
@@ -73,28 +87,40 @@ Board::Board(std::string b)
 bool Board::load(std::string b)
 {
   std::istringstream s(b);
+  return load(s);
+}
+
+bool Board::load(std::istream& s)
+{
   std::string t;
   s>>m_columns;
   s>>m_lines;
   s>>t;
   m_cells.clear();
+  int total = m_columns * m_lines;
+  int count = 0;
   for(auto ch : t)
   {
     m_cells.push_back(ch);
+    ++count;
   }
-  return true;
+  if (count == total)
+  {
+    return true;
+  }
+  m_cells.clear();
+  m_lines = 0;
+  m_columns = 0;
+  return false;
 }
 
 std::string Board::save() const
 {
   std::ostringstream s;
   s<<m_columns<<' '<<m_lines<<'\n';
-  for(int line=0; line<m_lines; ++line)
+  for (auto Cell : m_cells)
   {
-    for(int col=0; col<m_columns; ++col)
-    {
-      s<<getCellNoCheck(col,line);
-    }
+    s << Cell;
   }
   return s.str();
 }

@@ -75,10 +75,12 @@ class Board
     bool isCellInsideBoard(int col, int line) const
     {
       return (col >= 0 && line >= 0 && col < m_columns && line < m_lines);
-    }    bool isPlayable(int col, int line) const;
+    }
+    bool isPlayable(int col, int line) const;
     bool hasValidMoves() const;
     bool resta1() const;
     bool load(std::string b);
+    bool load(std::istream&);
     std::string save() const;
     std::string printable() const;
     Cell getCell(int col, int line) const
@@ -103,27 +105,15 @@ class Board
       return (delta_line == 2 && delta_col == 0) || (delta_col == 2 && delta_line == 0);
     }
 
-    std::tuple<bool,int,int> isMoveValid(int from_col, int from_line, int to_col, int to_line) const
-    {
-      int over_col = from_col + (to_col - from_col)/2;
-      int over_line = from_line + (to_line - from_line)/2;
-      if (getCellNoCheck(from_col,from_line).isFull() &&
-          getCellNoCheck(to_col,to_line).isEmpty() &&
-          getCellNoCheck(over_col,over_line).isFull())
-      {
-        return std::make_tuple(true,over_col,over_line);
-      }
-      return std::make_tuple(false,over_col,over_line);
-    }
-
+    std::tuple<bool,int,int> isMoveValid(int from_col, int from_line, int to_col, int to_line) const;
     Cell getCellNoCheck(int col, int line) const
     {
-      return m_cells[line*m_lines+col];
+      return m_cells[(line*m_columns)+col];
     }
 
     Cell &getCellNoCheck(int col, int line)
     {
-      return m_cells[line*m_lines+col];
+      return m_cells[(line*m_columns)+col];
     }
     std::vector<Cell> m_cells;
     int m_lines;
