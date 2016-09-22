@@ -52,7 +52,7 @@ int main(int argc, char **argv)
       case KEY_MOUSE:
         if(getmouse(&event) == OK)
         {
-          if (B.isCellInsideBoard(event.y,event.x))
+          if ((event.bstate & BUTTON1_CLICKED) && B.isCellInsideBoard(event.y,event.x))
           {
             row=event.y;
             col=event.x;
