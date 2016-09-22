@@ -1,4 +1,5 @@
 #include "resta1.h"
+#include <unistd.h>
 #include <iostream>
 #include <fstream>
 #include <cstdio>
@@ -23,8 +24,8 @@ int main(int argc, char **argv)
   init_pair(2, COLOR_RED, COLOR_WHITE);
   attron(COLOR_PAIR(1));
   raw();
+  noecho();
   keypad(stdscr, TRUE);		/* We get F1, F2 etc..		*/
-	noecho();
   bool selected=false;
   int col=0;
   int row=0;
@@ -41,7 +42,7 @@ int main(int argc, char **argv)
     move(row,col);
     refresh();
     int ch = getch();
-    if (ch == 'q')
+    if (ch == KEY_F(10) || ch == 'q')
     {
       mvprintw(B.lines(),0,"Are you sure? [y/N]");
       refresh();
@@ -55,6 +56,43 @@ int main(int argc, char **argv)
         clrtoeol();
       }
     }
+    if (ch == KEY_F(2) || ch == 's')
+    {
+      mvprintw(B.lines(),0,"Save board position? [y/N]");
+      refresh();
+      if (getch() == 'y')
+      {
+        move(B.lines(),0);
+        clrtoeol();
+        mvprintw(B.lines(),0,"File: ");
+        char filename[256];
+        noraw();
+        echo();
+        if (getnstr(filename,255) == OK)
+        {
+          move(B.lines(),0);
+          clrtoeol();
+          std::ofstream out{filename};
+          if (out.fail())
+          {
+            mvprintw(B.lines(),0,"Failed to save file");
+            refresh();
+          }
+          else
+          {
+            out << B.save();
+            out.close();
+            mvprintw(B.lines(),0,"Saved succesfully");
+            refresh();
+          }
+          usleep(1000000);
+        }
+        raw();
+        noecho();
+      }
+      move(B.lines(),0);
+      clrtoeol();
+   }
     switch (ch)
     {
       case KEY_MOUSE:
