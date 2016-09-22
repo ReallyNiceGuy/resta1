@@ -33,8 +33,8 @@ int main(int argc, char **argv)
     int ch = getch();
     if (ch == 'q')
     {
-      mvprintw(B.lines(),0,"Are you sure? [s/N]");
-      if (getch() == 's')
+      mvprintw(B.lines(),0,"Are you sure? [y/N]");
+      if (getch() == 'y')
       {
         break;
       }
